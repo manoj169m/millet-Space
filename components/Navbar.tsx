@@ -13,7 +13,7 @@ import useUserRole from '@/hook/useUserRole';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const role = useUserRole(); // Fetch the user's role
+  const { role, isLoading } = useUserRole(); // Destructure to get role from the hook return object
 
   return (
     <header className="border-b border-gray-200">
@@ -37,8 +37,8 @@ export default function Navbar() {
             <Link href="/contact" className="text-gray-600 hover:text-gray-900">
               Contact
             </Link>
-            {/* Admin Menu */}
-            {role === 'admin' && (
+            {/* Admin Menu - Only shown when not loading and role is admin */}
+            {!isLoading && role === 'admin' && (
               <Link href="/admin" className="text-gray-600 hover:text-gray-900">
                 Admin
               </Link>
@@ -73,6 +73,8 @@ export default function Navbar() {
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden text-gray-600 hover:text-gray-900 focus:outline-none"
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -105,8 +107,8 @@ export default function Navbar() {
             >
               Contact
             </Link>
-            {/* Admin Menu for Mobile */}
-            {role === 'admin' && (
+            {/* Admin Menu for Mobile - Only shown when not loading and role is admin */}
+            {!isLoading && role === 'admin' && (
               <Link
                 href="/admin"
                 className="block px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md"
