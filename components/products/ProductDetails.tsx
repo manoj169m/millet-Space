@@ -128,13 +128,12 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
     <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
       {/* Product Image */}
       <div className="overflow-hidden rounded-lg bg-gray-100">
-        <Image
+        <img
           src={product.image}
           alt={product.name}
           width={500}
           height={500}
           className="h-full w-full object-cover"
-          priority // Add priority for LCP improvement
         />
       </div>
 
