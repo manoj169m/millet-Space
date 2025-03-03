@@ -11,7 +11,6 @@ import { Badge } from "@/components/ui/badge";
 import { Product } from "@/types/types";
 import { Comment } from "@/types/types";
 import { useUser } from "@clerk/nextjs";
-import Image from 'next/image';
 
 interface ProductDetailsProps {
   product: Product;
