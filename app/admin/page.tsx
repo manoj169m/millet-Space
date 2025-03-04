@@ -6,6 +6,8 @@ import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProductAddComponent from "@/components/admin/admin-product";
+import AdminDashboard from "@/components/admin/admin-dashboard";
+import AdminOrders from "@/components/admin/admin-orders";
 
 export default function AdminPage() {
   const { isSignedIn, user } = useUser();
@@ -86,13 +88,13 @@ export default function AdminPage() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="dashboard" className="mt-6">
-            {/* <AdminDashboard /> */}
+            <AdminDashboard/>
           </TabsContent>
           <TabsContent value="products" className="mt-6">
             <ProductAddComponent />
           </TabsContent>
           <TabsContent value="orders" className="mt-6">
-            {/* <AdminOrders /> */}
+            <AdminOrders />
           </TabsContent>
         </Tabs>
       </div>

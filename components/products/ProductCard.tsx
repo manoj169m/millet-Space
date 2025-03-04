@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { Product } from "@/types/types";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/context/cart-context";
+import { useUser } from "@clerk/nextjs";
 
 interface ProductCardProps {
   product: Product;
@@ -16,6 +17,7 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
   const router = useRouter();
   const { addToCart } = useCart(); // Destructure the addToCart function
+  const {  isSignedIn } = useUser(); // Use isSignedIn to check user status
 
   const discountedPrice = product.offer
     ? product.price - (product.price * product.offer) / 100
@@ -23,7 +25,13 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
-    
+
+    // Check if the user is signed in
+    if (!isSignedIn) {
+      alert('Please sign in to add products to your cart!');
+      return; // Prevent the function from proceeding if not signed in
+    }
+
     // Add the product to the cart
     addToCart({
       id: product.id,
@@ -46,7 +54,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <Card 
+    <Card
       className="overflow-hidden hover:shadow-lg cursor-pointer group w-80 h-80 flex flex-col"
       onClick={handleCardClick}
     >
@@ -62,12 +70,10 @@ export default function ProductCard({ product }: ProductCardProps) {
           </Badge>
         )}
       </div>
-      
+
       <CardContent className="p-4 flex flex-col justify-between h-1/3">
-        <h3 className="font-medium text-base break-words">
-          {product.name}
-        </h3>
-        
+        <h3 className="font-medium text-base break-words">{product.name}</h3>
+
         <div className="flex items-center justify-between">
           <div className="flex items-baseline gap-1">
             <span className="font-bold text-lg">₹{discountedPrice.toFixed(2)}</span>
@@ -79,8 +85,9 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>
           <span className="text-xs text-muted-foreground">{product.quantity}</span>
         </div>
-        
+
         <div className="flex gap-3 mt-2">
+          
           <Button className="flex-1 p-0 h-8 text-sm" onClick={handleAddToCart}>
             <ShoppingCart className="mr-1 h-4 w-4" />
             Cart

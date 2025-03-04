@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/context/cart-context";
 import { useUser } from "@clerk/nextjs";
-import { toast } from "sonner";
 
 
 export default function CartPage() {
@@ -20,7 +19,7 @@ export default function CartPage() {
 
   const handleCheckout = () => {
     if (!isSignedIn) {
-      toast.error('please sign in to see cart')
+     alert('please sign in to see cart')
       return;
     }
 
@@ -105,34 +104,52 @@ export default function CartPage() {
                           </Link>
                         </h3>
                         <p className="text-sm font-medium">
-                          ${(item.price * item.quantity).toFixed(2)}
+                        ₹{(item.price * item.quantity).toFixed(2)}
                         </p>
                       </div>
                       <div className="mt-auto flex items-center justify-between">
-                        <div className="flex items-center">
-                          <label htmlFor={`quantity-${item.id}`} className="sr-only">
-                            Quantity
-                          </label>
-                          <Input
-                            id={`quantity-${item.id}`}
-                            type="number"
-                            min="1"
-                            value={item.quantity}
-                            onChange={(e) =>
-                              updateQuantity(item.id, parseInt(e.target.value, 10))
-                            }
-                            className="h-8 w-16"
-                          />
-                        </div>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => removeFromCart(item.id)}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                          <span className="sr-only">Remove item</span>
-                        </Button>
-                      </div>
+  <div className="flex items-center">
+    <label htmlFor={`quantity-${item.id}`} className="sr-only">
+      Quantity
+    </label>
+    <div className="flex items-center space-x-2">
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => updateQuantity(item.id, item.quantity - 1)}
+        disabled={item.quantity <= 1}  // Disable if quantity is 1
+        className="h-8 w-8"
+      >
+        -
+      </Button>
+      <Input
+        id={`quantity-${item.id}`}
+        type="number"
+        min="1"
+        value={item.quantity}
+        readOnly
+        className="h-8 w-16 text-center"
+      />
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+        className="h-8 w-8"
+      >
+        +
+      </Button>
+    </div>
+  </div>
+  <Button
+    variant="ghost"
+    size="sm"
+    onClick={() => removeFromCart(item.id)}
+  >
+    <Trash2 className="h-4 w-4" />
+    <span className="sr-only">Remove item</span>
+  </Button>
+</div>
+
                     </div>
                   </div>
                 ))}
@@ -146,7 +163,7 @@ export default function CartPage() {
               <div className="mt-4 space-y-4">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Subtotal</span>
-                  <span>${totalPrice.toFixed(2)}</span>
+                  <span>₹{totalPrice.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Shipping</span>
@@ -154,12 +171,12 @@ export default function CartPage() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Tax</span>
-                  <span>${(totalPrice * 0.1).toFixed(2)}</span>
+                  <span>₹{(totalPrice * 0.1).toFixed(2)}</span>
                 </div>
                 <div className="border-t pt-4">
                   <div className="flex justify-between font-medium">
                     <span>Total</span>
-                    <span>${(totalPrice + totalPrice * 0.1).toFixed(2)}</span>
+                    <span>₹{(totalPrice + totalPrice * 0.1).toFixed(2)}</span>
                   </div>
                 </div>
                 <Button
