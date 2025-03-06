@@ -17,7 +17,7 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
   const router = useRouter();
   const { addToCart } = useCart(); // Destructure the addToCart function
-  const {  isSignedIn } = useUser(); // Use isSignedIn to check user status
+  const { isSignedIn } = useUser(); // Use isSignedIn to check user status
 
   const discountedPrice = product.offer
     ? product.price - (product.price * product.offer) / 100
@@ -55,10 +55,10 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   return (
     <Card
-      className="overflow-hidden hover:shadow-lg cursor-pointer group w-80 h-80 flex flex-col bg-slate-200 border-0"
+      className="overflow-hidden hover:shadow-lg cursor-pointer group w-full sm:w-72 md:w-80 flex flex-col bg-slate-200 border-0"
       onClick={handleCardClick}
     >
-      <div className="relative w-full h-2/3 overflow-hidden">
+      <div className="relative w-full h-40 sm:h-48 md:h-2/3 overflow-hidden">
         <img
           src={product.image}
           alt={product.name}
@@ -87,13 +87,12 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
 
         <div className="flex gap-3 mt-2">
-          
           <Button className="flex-1 p-0 h-8 text-sm bg-white" onClick={handleAddToCart}>
             <ShoppingCart className="mr-1 h-4 w-4" />
             Cart
           </Button>
-          <Button 
-            className="flex-1 bg-gray-800 hover:bg-gray-900 text-white p-0 h-8 text-sm" 
+          <Button
+            className="flex-1 bg-gray-800 hover:bg-gray-900 text-white p-0 h-8 text-sm"
             onClick={handleBuyNow}
           >
             <CreditCard className="mr-1 h-4 w-4" />
@@ -104,3 +103,4 @@ export default function ProductCard({ product }: ProductCardProps) {
     </Card>
   );
 }
+

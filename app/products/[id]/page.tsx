@@ -6,7 +6,7 @@ import { supabase } from "@/lib/supabaseClient";
 import ProductDetails from "@/components/products/ProductDetails";
 import { Product } from "@/types/types";
 import { Skeleton } from "@/components/ui/skeleton";
-
+import MilletSpaceLoader from "@/app/MilletSpaceLoader";
 
 export default function ProductPage() {
   const { id } = useParams();
@@ -17,11 +17,11 @@ export default function ProductPage() {
     const fetchProduct = async () => {
       try {
         setLoading(true);
-        
+
         if (!id) {
           return notFound();
         }
-        
+
         const { data, error } = await supabase
           .from("products")
           .select("*")
@@ -50,7 +50,7 @@ export default function ProductPage() {
   }, [id]);
 
   if (loading) {
-    return <ProductSkeleton />;
+    return <MilletSpaceLoader />;
   }
 
   if (!product) {
@@ -65,41 +65,41 @@ export default function ProductPage() {
 }
 
 // Loading skeleton for the product details page
-function ProductSkeleton() {
-  return (
-    <div className="container mx-auto py-8 px-4">
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-        {/* Image skeleton */}
-        <Skeleton className="h-96 w-full rounded-lg" />
+// function ProductSkeleton() {
+//   return (
+//     <div className="container mx-auto py-8 px-4">
+//       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+//         {/* Image skeleton */}
+//         <Skeleton className="h-96 w-full rounded-lg" />
         
-        {/* Content skeleton */}
-        <div className="space-y-6">
-          <div className="space-y-2">
-            <Skeleton className="h-10 w-3/4" />
-            <Skeleton className="h-8 w-1/3" />
-          </div>
+//         {/* Content skeleton */}
+//         <div className="space-y-6">
+//           <div className="space-y-2">
+//             <Skeleton className="h-10 w-3/4" />
+//             <Skeleton className="h-8 w-1/3" />
+//           </div>
           
-          <Skeleton className="h-24 w-full" />
+//           <Skeleton className="h-24 w-full" />
           
-          <div className="space-y-4">
-            <Skeleton className="h-6 w-full" />
-            <Skeleton className="h-6 w-full" />
-          </div>
+//           <div className="space-y-4">
+//             <Skeleton className="h-6 w-full" />
+//             <Skeleton className="h-6 w-full" />
+//           </div>
           
-          <div className="space-y-4">
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-          </div>
+//           <div className="space-y-4">
+//             <Skeleton className="h-10 w-full" />
+//             <Skeleton className="h-10 w-full" />
+//           </div>
           
-          <div className="mt-6">
-            <Skeleton className="h-8 w-1/4 mb-4" />
-            <div className="space-y-4">
-              <Skeleton className="h-24 w-full rounded-lg" />
-              <Skeleton className="h-24 w-full rounded-lg" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+//           <div className="mt-6">
+//             <Skeleton className="h-8 w-1/4 mb-4" />
+//             <div className="space-y-4">
+//               <Skeleton className="h-24 w-full rounded-lg" />
+//               <Skeleton className="h-24 w-full rounded-lg" />
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }

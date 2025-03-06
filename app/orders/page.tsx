@@ -23,6 +23,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Order, OrderItem, Address } from "@/types/types";
+import MilletSpaceLoader from "../MilletSpaceLoader";
 
 export default function OrdersPage() {
   const { isSignedIn, user } = useUser();
@@ -123,11 +124,7 @@ export default function OrdersPage() {
 
   if (loading) {
     return (
-      <div className="container py-10">
-        <div className="flex items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
-        </div>
-      </div>
+      <MilletSpaceLoader/>
     );
   }
 

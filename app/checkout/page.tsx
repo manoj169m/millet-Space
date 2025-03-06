@@ -26,7 +26,7 @@ export default function CheckoutPage() {
     city: "",
     state: "",
     postalCode: "",
-    country: "United States",
+    country: "",
   });
   const [paymentMethod, setPaymentMethod] = useState<"card" | "paypal">("card");
   const [cardDetails, setCardDetails] = useState({
@@ -532,7 +532,7 @@ export default function CheckoutPage() {
                             <div className="flex justify-between">
                               <h3 className="text-sm font-medium text-slate-800">{item.name}</h3>
                               <p className="text-sm font-medium text-slate-800">
-                                ${(item.price * item.quantity).toFixed(2)}
+                              ₹{(item.price * item.quantity).toFixed(2)}
                               </p>
                             </div>
                             <p className="text-sm text-slate-500">
@@ -545,7 +545,7 @@ export default function CheckoutPage() {
                     <Separator className="my-4 bg-slate-100" />
                     <div className="flex justify-between text-slate-600">
                       <span>Subtotal</span>
-                      <span>${totalPrice.toFixed(2)}</span>
+                      <span>₹{totalPrice.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between text-slate-600">
                       <span>Shipping</span>
@@ -553,12 +553,12 @@ export default function CheckoutPage() {
                     </div>
                     <div className="flex justify-between text-slate-600">
                       <span>Tax</span>
-                      <span>${(totalPrice * 0.1).toFixed(2)}</span>
+                      <span>₹{(totalPrice * 0.1).toFixed(2)}</span>
                     </div>
                     <Separator className="my-4 bg-slate-100" />
                     <div className="flex justify-between font-medium text-lg">
                       <span>Total</span>
-                      <span className="text-indigo-600">${(totalPrice + totalPrice * 0.1).toFixed(2)}</span>
+                      <span className="text-indigo-600">₹{(totalPrice + totalPrice * 0.1).toFixed(2)}</span>
                     </div>
 
                     <div className="mt-6 pt-4 border-t border-slate-100">

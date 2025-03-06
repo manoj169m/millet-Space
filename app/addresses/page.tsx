@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/dialog";
 import { supabase } from "@/lib/supabaseClient";
 import { Address } from "@/types/types";
+import MilletSpaceLoader from "../MilletSpaceLoader";
 
 export default function AddressesPage() {
   const { isSignedIn, user } = useUser();
@@ -206,11 +207,7 @@ export default function AddressesPage() {
 
   if (loading) {
     return (
-      <div className="container py-10">
-        <div className="flex items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
-        </div>
-      </div>
+    <MilletSpaceLoader/>
     );
   }
 
@@ -219,7 +216,7 @@ export default function AddressesPage() {
   }
 
   return (
-    <div className="container py-10">
+    <div className="container p-10">
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-semibold">Your Address</h1>

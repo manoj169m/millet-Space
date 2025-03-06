@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import ProductCard from "@/components/products/ProductCard";
 import { Product } from "@/types/types";
+import MilletSpaceLoader from "../MilletSpaceLoader";
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -33,7 +34,7 @@ export default function Home() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <p>Loading products...</p>
+        <MilletSpaceLoader/>
       </div>
     );
   }

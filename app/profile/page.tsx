@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 // import { useToast } from "@/hooks/use-toast";
 import { User, Settings, ShoppingBag, MapPin } from "lucide-react";
+import MilletSpaceLoader from "../MilletSpaceLoader";
 
 export default function ProfilePage() {
   const { isSignedIn, user } = useUser();
@@ -23,7 +24,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (!isSignedIn) {
-      router.push("/sign-in");
+      router.push("/");
     }
   }, [isSignedIn, router]);
 
@@ -56,8 +57,13 @@ export default function ProfilePage() {
     }
   };
 
+
   if (!isSignedIn) {
     return null; // Will redirect in useEffect
+  }
+
+  if(loading){
+    <MilletSpaceLoader/>
   }
 
   return (

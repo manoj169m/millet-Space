@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/context/cart-context";
 import { useUser } from "@clerk/nextjs";
+import MilletSpaceLoader from "../MilletSpaceLoader";
 
 export default function CartPage() {
   const { cart, removeFromCart, updateQuantity, totalPrice } = useCart();
@@ -30,6 +31,8 @@ export default function CartPage() {
       router.push("/checkout");
     }, 1000);
   };
+  
+
 
   if (!isSignedIn) {
     return (
@@ -43,7 +46,7 @@ export default function CartPage() {
               Please sign in to view your cart
             </p>
             <Button asChild className="mt-4 bg-indigo-600 hover:bg-indigo-700">
-              <Link href="/sign-in">Sign In</Link>
+              <Link href="/">home</Link>
             </Button>
           </div>
         </div>
