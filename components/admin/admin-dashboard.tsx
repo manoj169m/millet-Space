@@ -16,8 +16,8 @@ import {
   Cell,
   Legend
 } from "recharts";
-
-import { Product ,Order } from "@/types/types";
+import { Product, Order } from "@/types/types";
+import { Package, ShoppingCart, DollarSign, AlertCircle } from "lucide-react"; // Importing Lucide icons
 
 export default function AdminDashboard() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -37,7 +37,7 @@ export default function AdminDashboard() {
         const { data: productsData } = await supabase
           .from("products")
           .select("*");
-        
+
         if (productsData) {
           setProducts(productsData);
           setStats(prev => ({
@@ -51,7 +51,7 @@ export default function AdminDashboard() {
         const { data: ordersData } = await supabase
           .from("orders")
           .select("*");
-        
+
         if (ordersData) {
           setOrders(ordersData);
           setStats(prev => ({
@@ -91,7 +91,10 @@ export default function AdminDashboard() {
     value,
   }));
 
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
+  // Updated color palette for better user experience
+  const PIE_COLORS = ['#0088FE', '#FF8042', '#00C49F', '#FFBB28', '#FF6666']; // More distinct colors
+  const BAR_COLOR = '#4CAF50'; // Green for positive representation (orders processed or delivered)
+//   const CARD_HIGHLIGHT = '#F3F4F6'; // Soft background color for highlighting cards
 
   if (loading) {
     return (
@@ -103,44 +106,46 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Total Products
-            </CardTitle>
+      {/* Stats Cards */}
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {/* Total Products */}
+        <Card className="hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105 bg-gradient-to-r from-blue-100 to-blue-50">
+          <CardHeader className="pb-2 flex items-center space-x-2">
+            <Package size={24} className="text-blue-600" />
+            <CardTitle className="text-sm font-semibold text-muted-foreground">Total Products</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.totalProducts}</div>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Total Orders
-            </CardTitle>
+
+        {/* Total Orders */}
+        <Card className="hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105 bg-gradient-to-r from-green-100 to-green-50">
+          <CardHeader className="pb-2 flex items-center space-x-2">
+            <ShoppingCart size={24} className="text-green-600" />
+            <CardTitle className="text-sm font-semibold text-muted-foreground">Total Orders</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.totalOrders}</div>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Total Revenue
-            </CardTitle>
+
+        {/* Total Revenue */}
+        <Card className="hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105 bg-gradient-to-r from-yellow-100 to-yellow-50">
+          <CardHeader className="pb-2 flex items-center space-x-2">
+            <DollarSign size={24} className="text-yellow-600" />
+            <CardTitle className="text-sm font-semibold text-muted-foreground">Total Revenue</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              ${stats.totalRevenue.toFixed(2)}
-            </div>
+            <div className="text-2xl font-bold">${stats.totalRevenue.toFixed(2)}</div>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Low Stock Items
-            </CardTitle>
+
+        {/* Low Stock Items */}
+        <Card className="hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105 bg-gradient-to-r from-red-100 to-red-50">
+          <CardHeader className="pb-2 flex items-center space-x-2">
+            <AlertCircle size={24} className="text-red-600" />
+            <CardTitle className="text-sm font-semibold text-muted-foreground">Low Stock Items</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.lowStock}</div>
@@ -148,8 +153,10 @@ export default function AdminDashboard() {
         </Card>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        <Card>
+      {/* Charts */}
+      <div className="grid gap-6 md:grid-cols-2">
+        {/* Pie Chart for Categories */}
+        <Card className="hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105 bg-white">
           <CardHeader>
             <CardTitle>Products by Category</CardTitle>
           </CardHeader>
@@ -168,7 +175,7 @@ export default function AdminDashboard() {
                     label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                   >
                     {categoryData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />
                     ))}
                   </Pie>
                   <Tooltip />
@@ -178,7 +185,9 @@ export default function AdminDashboard() {
             </div>
           </CardContent>
         </Card>
-        <Card>
+
+        {/* Bar Chart for Orders by Status */}
+        <Card className="hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105 bg-white">
           <CardHeader>
             <CardTitle>Orders by Status</CardTitle>
           </CardHeader>
@@ -198,7 +207,7 @@ export default function AdminDashboard() {
                   <XAxis dataKey="name" />
                   <YAxis />
                   <Tooltip />
-                  <Bar dataKey="value" fill="hsl(var(--chart-1))" />
+                  <Bar dataKey="value" fill={BAR_COLOR} />
                 </BarChart>
               </ResponsiveContainer>
             </div>

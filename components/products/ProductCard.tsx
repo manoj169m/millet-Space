@@ -55,7 +55,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   return (
     <Card
-      className="overflow-hidden hover:shadow-lg cursor-pointer group w-80 h-80 flex flex-col"
+      className="overflow-hidden hover:shadow-lg cursor-pointer group w-80 h-80 flex flex-col bg-slate-200 border-0"
       onClick={handleCardClick}
     >
       <div className="relative w-full h-2/3 overflow-hidden">
@@ -88,11 +88,14 @@ export default function ProductCard({ product }: ProductCardProps) {
 
         <div className="flex gap-3 mt-2">
           
-          <Button className="flex-1 p-0 h-8 text-sm" onClick={handleAddToCart}>
+          <Button className="flex-1 p-0 h-8 text-sm bg-white" onClick={handleAddToCart}>
             <ShoppingCart className="mr-1 h-4 w-4" />
             Cart
           </Button>
-          <Button className="flex-1 p-0 h-8 text-sm bg-white text-black" variant="secondary" onClick={handleBuyNow}>
+          <Button 
+            className="flex-1 bg-gray-800 hover:bg-gray-900 text-white p-0 h-8 text-sm" 
+            onClick={handleBuyNow}
+          >
             <CreditCard className="mr-1 h-4 w-4" />
             Buy
           </Button>

@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/lib/supabaseClient";
-
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -45,7 +44,8 @@ export default function AdminOrders() {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
-  const [address, setAddress] = useState<Address | null>(null); // Updated type here
+  const [address, setAddress] = useState<Address | null>(null);
+  const [fetchingDetails, setFetchingDetails] = useState<boolean>(false); // To show loading indicator while fetching order details
 
   // Fetch orders with enhanced error handling
   const fetchOrders = useCallback(async () => {
@@ -73,7 +73,9 @@ export default function AdminOrders() {
 
   // Handle fetching order items and address
   const fetchOrderDetails = async (orderId: string) => {
+    setFetchingDetails(true);
     try {
+      // Fetch order items
       const { data: items, error: itemsError } = await supabase
         .from("order_items")
         .select(`
@@ -85,17 +87,22 @@ export default function AdminOrders() {
       if (itemsError) throw itemsError;
       setOrderItems(items as OrderItem[]);
 
-      const { data: addressData, error: addressError } = await supabase
-        .from("addresses")
-        .select("*")
-        .eq("id", selectedOrder?.address_id)
-        .single();
+      // Fetch address details
+      if (selectedOrder?.address_id) {
+        const { data: addressData, error: addressError } = await supabase
+          .from("addresses")
+          .select("*")
+          .eq("id", selectedOrder.address_id)
+          .single();
 
-      if (addressError) throw addressError;
-      setAddress(addressData as Address); // Type casting to Address
+        if (addressError) throw addressError;
+        setAddress(addressData as Address);
+      }
     } catch (error) {
       console.error("Error fetching order details:", error);
       showAlert("Error", "Failed to fetch order details", "destructive");
+    } finally {
+      setFetchingDetails(false);
     }
   };
 
@@ -126,17 +133,10 @@ export default function AdminOrders() {
       );
       setSelectedOrder({ ...selectedOrder, status });
 
-      alert({
-        title: "Status updated",
-        description: `Order status has been updated to ${status}`,
-      });
+      showAlert("Success", `Order status has been updated to ${status}`);
     } catch (error) {
       console.error("Error updating order status:", error);
-      alert({
-        title: "Error",
-        description: "Failed to update order status",
-        variant: "destructive",
-      });
+      showAlert("Error", "Failed to update order status", "destructive");
     }
   };
 
@@ -145,46 +145,46 @@ export default function AdminOrders() {
     alert({ title, description, variant });
   };
 
-  // Get status badge
+  // Get status badge with professional design
   const getStatusBadge = (status: string) => {
-    let badgeClass = "bg-gray-100 text-gray-800"; // Default fallback
+    let badgeClass = "bg-gray-200 text-gray-700"; // Default fallback
 
     switch (status) {
       case "pending":
-        badgeClass = "bg-yellow-100 text-yellow-800";
+        badgeClass = "bg-yellow-400 text-yellow-800";
         break;
       case "processing":
-        badgeClass = "bg-blue-100 text-blue-800";
+        badgeClass = "bg-blue-400 text-blue-800";
         break;
       case "shipped":
-        badgeClass = "bg-purple-100 text-purple-800";
+        badgeClass = "bg-purple-400 text-purple-800";
         break;
       case "delivered":
-        badgeClass = "bg-green-100 text-green-800";
+        badgeClass = "bg-green-400 text-green-800";
         break;
       case "cancelled":
-        badgeClass = "bg-red-100 text-red-800";
+        badgeClass = "bg-red-400 text-red-800";
         break;
       default:
         break;
     }
 
-    return <Badge variant="outline" className={`${badgeClass} dark:bg-opacity-30 dark:text-gray-500`}>{status}</Badge>;
+    return <Badge variant="outline" className={`${badgeClass} rounded-md py-1 px-3 text-sm`}>{status}</Badge>;
   };
 
   if (loading) {
     return (
       <div className="flex items-center justify-center py-10">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-xl font-bold">Orders</h2>
+    <div className="space-y-6 px-4 py-6 max-w-7xl mx-auto">
+      <h2 className="text-3xl font-semibold text-gray-900">Orders</h2>
 
-      <div className="rounded-md border">
+      <div className="rounded-lg border border-gray-300 shadow-lg">
         <Table>
           <TableHeader>
             <TableRow>
@@ -199,7 +199,7 @@ export default function AdminOrders() {
           <TableBody>
             {orders.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={6} className="text-center">
+                <TableCell colSpan={6} className="text-center py-4 text-gray-500">
                   No orders found
                 </TableCell>
               </TableRow>
@@ -213,11 +213,12 @@ export default function AdminOrders() {
                   <TableCell>{getStatusBadge(order.status)}</TableCell>
                   <TableCell>
                     <Button
-                      variant="ghost"
+                      variant="outline"
+                      color="primary"
                       size="icon"
                       onClick={() => handleViewOrder(order)}
                     >
-                      <Eye className="h-4 w-4" />
+                      <Eye className="h-5 w-5 text-gray-700 hover:text-blue-600" />
                       <span className="sr-only">View order</span>
                     </Button>
                   </TableCell>
@@ -230,29 +231,25 @@ export default function AdminOrders() {
 
       {/* Order Details Dialog */}
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogContent className="sm:max-w-[600px]">
+        <DialogContent className="sm:max-w-[600px] bg-white shadow-lg rounded-lg p-6">
           <DialogHeader>
-            <DialogTitle>Order Details</DialogTitle>
-            <DialogDescription>Order ID: {selectedOrder?.id}</DialogDescription>
+            <DialogTitle className="text-xl font-semibold text-gray-900">Order Details</DialogTitle>
+            <DialogDescription className="text-sm text-gray-600">Order ID: {selectedOrder?.id}</DialogDescription>
           </DialogHeader>
           {selectedOrder && (
             <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">
-                    Date: {new Date(selectedOrder.created_at).toLocaleString()}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    Customer ID: {selectedOrder.user_id}
-                  </p>
+              <div className="flex justify-between items-center">
+                <div className="space-y-2">
+                  <p className="text-sm text-muted-foreground">Date: {new Date(selectedOrder.created_at).toLocaleString()}</p>
+                  <p className="text-sm text-muted-foreground">Customer ID: {selectedOrder.user_id}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-medium">Status:</span>
                   <Select value={selectedOrder.status} onValueChange={handleStatusChange}>
-                    <SelectTrigger className="w-[140px]">
+                    <SelectTrigger className="w-[140px] border rounded-md bg-white">
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-white">
                       <SelectItem value="pending">Pending</SelectItem>
                       <SelectItem value="processing">Processing</SelectItem>
                       <SelectItem value="shipped">Shipped</SelectItem>
@@ -264,20 +261,22 @@ export default function AdminOrders() {
               </div>
 
               {/* Address & Items Details */}
-              <div className="space-y-2">
-                <h3 className="text-sm font-medium">Shipping Address</h3>
-                {address && (
-                  <div className="rounded-md border p-3 text-sm">
+              <div className="space-y-4">
+                <h3 className="text-sm font-medium text-gray-800">Shipping Address</h3>
+                {address ? (
+                  <div className="rounded-lg border p-4 bg-gray-50 text-sm text-gray-700 shadow-md">
                     <p>{address.street}</p>
                     <p>{`${address.city}, ${address.state} ${address.postal_code}`}</p>
                     <p>{address.country}</p>
                   </div>
+                ) : (
+                  <p className="text-sm text-gray-500">Loading address...</p>
                 )}
               </div>
 
-              <div className="space-y-2">
-                <h3 className="text-sm font-medium">Order Items</h3>
-                <div className="rounded-md border">
+              <div className="space-y-4">
+                <h3 className="text-sm font-medium text-gray-800">Order Items</h3>
+                <div className="rounded-lg border bg-gray-50 shadow-md p-4">
                   <Table>
                     <TableHeader>
                       <TableRow>
@@ -288,45 +287,49 @@ export default function AdminOrders() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {orderItems.map((item) => (
-                        <TableRow key={item.id}>
-                          <TableCell className="flex items-center gap-2">
-                            <div className="h-8 w-8 overflow-hidden rounded-md">
-                              <img
-                                src={item.products.image}
-                                alt={item.products.name}
-                                className="h-full w-full object-cover"
-                              />
-                            </div>
-                            <span className="text-sm">{item.products.name}</span>
+                      {fetchingDetails ? (
+                        <TableRow>
+                          <TableCell colSpan={4} className="text-center py-4 text-gray-500">
+                            Loading order items...
                           </TableCell>
-                          <TableCell>${item.price.toFixed(2)}</TableCell>
-                          <TableCell>{item.quantity}</TableCell>
-                          <TableCell>${(item.price * item.quantity).toFixed(2)}</TableCell>
                         </TableRow>
-                      ))}
+                      ) : (
+                        orderItems.map((item) => (
+                          <TableRow key={item.id}>
+                            <TableCell className="flex items-center gap-2">
+                              <div className="h-8 w-8 overflow-hidden rounded-md">
+                                <img
+                                  src={item.products.image}
+                                  alt={item.products.name}
+                                  className="h-full w-full object-cover"
+                                />
+                              </div>
+                              <span className="text-sm">{item.products.name}</span>
+                            </TableCell>
+                            <TableCell>${item.price.toFixed(2)}</TableCell>
+                            <TableCell>{item.quantity}</TableCell>
+                            <TableCell>${(item.price * item.quantity).toFixed(2)}</TableCell>
+                          </TableRow>
+                        ))
+                      )}
                     </TableBody>
                   </Table>
                 </div>
               </div>
 
               {/* Total Calculation */}
-              <div className="rounded-md border p-4">
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-foreground">Subtotal</span>
-                  <span className="text-sm">
-                    ${(selectedOrder.total_amount / 1.1).toFixed(2)}
-                  </span>
+              <div className="rounded-lg border p-4 bg-gray-100">
+                <div className="flex justify-between text-sm text-gray-800">
+                  <span>Subtotal</span>
+                  <span>${(selectedOrder.total_amount / 1.1).toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-foreground">Tax</span>
-                  <span className="text-sm">
-                    ${(selectedOrder.total_amount - selectedOrder.total_amount / 1.1).toFixed(2)}
-                  </span>
+                <div className="flex justify-between text-sm text-gray-800">
+                  <span>Tax</span>
+                  <span>${(selectedOrder.total_amount - selectedOrder.total_amount / 1.1).toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between border-t pt-2 mt-2">
-                  <span className="font-medium">Total</span>
-                  <span className="font-medium">${selectedOrder.total_amount.toFixed(2)}</span>
+                <div className="flex justify-between text-lg font-semibold text-gray-900 border-t pt-2 mt-2">
+                  <span>Total</span>
+                  <span>${selectedOrder.total_amount.toFixed(2)}</span>
                 </div>
               </div>
             </div>

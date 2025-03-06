@@ -43,5 +43,16 @@ export interface Product {
       image: string;
     };
   }
+
+  export interface Address {
+    id: string;         // Add this if it doesn't exist
+    street: string;
+    city: string;
+    state: string;
+    postal_code: string;
+    country: string;
+    is_default: boolean;
+  }
+  
   
   

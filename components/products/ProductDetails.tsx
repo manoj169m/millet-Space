@@ -182,9 +182,9 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 gap-12 md:grid-cols-2 bg-white rounded-xl shadow-sm overflow-hidden">
+      <div className="grid grid-cols-1 gap-12 md:grid-cols-2 bg-slate-200 rounded-xl shadow-sm overflow-hidden">
         {/* Product Image */}
-        <div className="overflow-hidden bg-gray-50 flex items-center justify-center p-4">
+        <div className="overflow-hidden bg-slate-200  flex items-center justify-center p-4">
           <img
             src={product.image}
             alt={product.name}
@@ -248,7 +248,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
           {/* Add to Cart and Buy Now Buttons */}
           <div className="flex gap-4 pt-4">
             <Button
-              className="flex-1 gap-2 py-6 bg-gray-800 hover:bg-gray-700"
+              className="flex-1 gap-2 py-6 bg-gray-800 hover:bg-gray-700 text-white"
               disabled={product.stock === 0}
               onClick={handleAddToCart}
               aria-label="Add to Cart"
@@ -257,7 +257,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
               Add to Cart
             </Button>
             <Button
-              className="flex-1 gap-2 py-6 bg-primary hover:bg-primary/90"
+              className="flex-1 gap-2 py-6 bg-white hover:bg-slate-50"
               disabled={product.stock === 0}
               onClick={handleBuyNow}
               aria-label="Buy Now"
@@ -270,7 +270,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
       </div>
 
       {/* Reviews Section */}
-      <div className="mt-12 bg-white rounded-xl shadow-sm p-6">
+      <div className="mt-12 bg-slate-200 rounded-xl shadow-sm p-6">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-2xl font-bold text-gray-900">Customer Reviews</h3>
           <Button 
@@ -284,7 +284,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
         {/* Add Review Form */}
         {addingReview && (
-          <div className="mb-8 bg-gray-50 p-6 rounded-lg">
+          <div className="mb-8 bg-slate-200 p-6 rounded-lg">
             <Label htmlFor="comment" className="text-lg font-medium">Your Review</Label>
             <div className="flex items-center gap-2 my-3">
               <Label htmlFor="rating" className="font-medium">Rating:</Label>
