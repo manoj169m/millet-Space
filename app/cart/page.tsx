@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/context/cart-context";
 import { useUser } from "@clerk/nextjs";
-import MilletSpaceLoader from "../MilletSpaceLoader";
 
 export default function CartPage() {
   const { cart, removeFromCart, updateQuantity, totalPrice } = useCart();

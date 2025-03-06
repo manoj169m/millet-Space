@@ -5,7 +5,6 @@ import { useParams, notFound } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import ProductDetails from "@/components/products/ProductDetails";
 import { Product } from "@/types/types";
-import { Skeleton } from "@/components/ui/skeleton";
 import MilletSpaceLoader from "@/app/MilletSpaceLoader";
 
 export default function ProductPage() {
