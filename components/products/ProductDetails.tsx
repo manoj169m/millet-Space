@@ -11,7 +11,7 @@ import { Product } from "@/types/types";
 import { Comment } from "@/types/types";
 import { useUser } from "@clerk/nextjs";
 import { useCart } from "@/context/cart-context";
-import { Star, ShoppingCart, CreditCard, ChevronDown, ChevronUp } from "lucide-react";
+import { Star, ShoppingCart, ChevronDown, ChevronUp } from "lucide-react";
 
 interface ProductDetailsProps {
   product: Product;
@@ -127,23 +127,23 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
     toast.success("Added to cart successfully");
   };
 
-  const handleBuyNow = () => {
-    if (!isSignedIn) {
-      toast.error("Please sign in to proceed to checkout!");
-      return;
-    }
+  // const handleBuyNow = () => {
+  //   if (!isSignedIn) {
+  //     toast.error("Please sign in to proceed to checkout!");
+  //     return;
+  //   }
     
-    addToCart({
-      id: product.id,
-      name: product.name,
-      price: discountedPrice,
-      image: product.image,
+  //   addToCart({
+  //     id: product.id,
+  //     name: product.name,
+  //     price: discountedPrice,
+  //     image: product.image,
       
-    });
+  //   });
     
-    toast.success("Proceeding to Checkout");
-    // Add navigation to checkout page here
-  };
+  //   toast.success("Proceeding to Checkout");
+  //   // Add navigation to checkout page here
+  // };
 
   // Calculate average rating
   const averageRating = comments.length 
@@ -256,7 +256,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
               <ShoppingCart size={18} />
               Add to Cart
             </Button>
-            <Button
+            {/* <Button
               className="flex-1 gap-2 py-6 bg-white hover:bg-slate-50"
               disabled={product.stock === 0}
               onClick={handleBuyNow}
@@ -264,7 +264,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
             >
               <CreditCard size={18} />
               Buy Now
-            </Button>
+            </Button> */}
           </div>
         </div>
       </div>

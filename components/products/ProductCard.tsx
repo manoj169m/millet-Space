@@ -3,8 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, CreditCard } from "lucide-react";
-import { toast } from "sonner";
+import { ShoppingCart } from "lucide-react";
+// import { toast } from "sonner";
 import { Product } from "@/types/types";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/context/cart-context";
@@ -44,10 +44,10 @@ export default function ProductCard({ product }: ProductCardProps) {
     alert("Added to cart successfully");
   };
 
-  const handleBuyNow = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    toast.success("Proceeding to checkout");
-  };
+  // const handleBuyNow = (e: React.MouseEvent) => {
+  //   e.stopPropagation();
+  //   toast.success("Proceeding to checkout");
+  // };
 
   const handleCardClick = () => {
     router.push(`/products/${product.id}`);
@@ -91,13 +91,13 @@ export default function ProductCard({ product }: ProductCardProps) {
             <ShoppingCart className="mr-1 h-4 w-4" />
             Cart
           </Button>
-          <Button
+          {/* <Button
             className="flex-1 bg-gray-800 hover:bg-gray-900 text-white p-0 h-8 text-sm"
             onClick={handleBuyNow}
           >
             <CreditCard className="mr-1 h-4 w-4" />
             Buy
-          </Button>
+          </Button> */} 
         </div>
       </CardContent>
     </Card>
