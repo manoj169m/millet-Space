@@ -49,10 +49,6 @@ function Millet() {
     router.push(`/products/${productId}`);
   };
 
-  const handleViewAllClick = () => {
-    // Navigate to the all products page
-    router.push("/products"); 
-  };
 
   if (loading) {
     return (
