@@ -47,13 +47,15 @@ const DesktopNavLinks: React.FC<{
 }> = ({ role, isLoading }) => (
   <nav className="hidden md:flex items-center justify-center space-x-8">
     {routes.map(route => (
-      <Link
-        key={route.href}
-        href={route.href}
-        className="text-sm font-medium text-gray-600 hover:text-gray-900"
-      >
-        {route.label}
-      </Link>
+  <Link
+  key={route.href}
+  href={route.href}
+  className="text-sm font-medium text-gray-600 hover:text-gray-900 relative group"
+>
+  {route.label}
+  <span className="absolute left-0 bottom-0 w-full h-[2px] bg-gray-900 scale-x-0 transition-all duration-300 group-hover:scale-x-100"></span>
+</Link>
+
     ))}
     {!isLoading && role === 'admin' && (
       <Link
@@ -73,8 +75,8 @@ const DesktopNavLinks: React.FC<{
 const UserAuthDropdown: React.FC = () => (
   <DropdownMenu >
     <DropdownMenuTrigger asChild>
-      <Button variant="ghost" size="icon" className="rounded-full">
-        <User className="h-6 w-6 text-gray-600 hover:text-primary" />
+      <Button variant="ghost" size="icon" className="rounded-full cursor-pointer">
+        <User className="h-6 w-6 text-gray-600 hover:text-primary " />
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end" className='bg-white'>
@@ -173,10 +175,10 @@ export default function Navbar() {
         <DesktopNavLinks role={role} isLoading={isLoading} />
 
         {/* Right Side - Cart and Auth */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4 ">
           {/* Cart Link */}
-          <Link href="/cart" className=" md:flex relative">
-            <Button variant="ghost" size="icon">
+          <Link href="/cart" className=" md:flex relative ">
+            <Button variant="ghost" size="icon" className='cursor-pointer'>
               <ShoppingCart className="h-5 w-5" />
               {cartItemsCount > 0 && (
                 <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-green-500 text-xs text-primary-foreground">

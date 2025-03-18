@@ -134,7 +134,7 @@ export default function OrdersPage() {
 
   if (orders.length === 0) {
     return (
-      <div className="container py-10">
+      <div className="container py-10 bg-amber-50">
         <div className="mx-auto max-w-2xl space-y-6 text-center">
           <h1 className="text-3xl font-bold text-primary">Your Orders</h1>
           <div className="rounded-lg border p-8 bg-white shadow-lg">
@@ -154,9 +154,11 @@ export default function OrdersPage() {
   }
 
   return (
-    <div className="container p-10">
+    <div className="container p-10 bg-amber-50">
       <div className="space-y-6">
-        <h1 className="text-3xl font-bold text-primary">Your Orders</h1>
+      <h1 className="text-3xl font-bold text-primary">
+  Your Orders <span><ShoppingBag className="inline-block h-6 w-6 text-primary" /></span>
+</h1>
 
         <div className="rounded-md border bg-white shadow-lg">
           <Table>

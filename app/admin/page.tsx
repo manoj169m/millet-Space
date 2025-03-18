@@ -44,7 +44,7 @@ export default function AdminPage() {
   if (!isAdmin) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-amber-50">
-        <div className="bg-white p-8 rounded-lg shadow-lg max-w-md text-center">
+        <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full text-center">
           <div className="mb-4 flex justify-center">
             <ShieldCheck className="h-16 w-16 text-red-500" />
           </div>
@@ -82,7 +82,7 @@ export default function AdminPage() {
 
         <div className="bg-white rounded-xl shadow-md p-6">
           <Tabs defaultValue="dashboard" className="w-full">
-            <TabsList className="flex justify-start mb-6 border-b border-gray-200 p-0 space-x-1">
+            <TabsList className="flex flex-wrap justify-start mb-6 border-b border-gray-200 p-0 space-x-1">
               <TabsTrigger
                 value="dashboard"
                 className="flex items-center gap-2 py-3 px-5 text-base font-medium text-gray-700 hover:text-amber-600 data-[state=active]:text-amber-600 data-[state=active]:border-b-2 data-[state=active]:border-amber-600 transition-all focus:outline-none"

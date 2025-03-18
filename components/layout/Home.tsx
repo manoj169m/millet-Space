@@ -6,6 +6,7 @@ import { Product } from "@/types/types";
 import MilletSpaceLoader from "@/app/MilletSpaceLoader";
 import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const categories = [
   "Millets & Grains",
@@ -68,7 +69,7 @@ function Millet() {
         <img
           src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1920"
           alt="Fresh produce"
-          className="w-full h-full object-cover opacity-30"
+          className="w-full h-full object-cover "
         />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center">
@@ -78,9 +79,7 @@ function Millet() {
             <p className="text-xl text-white mb-8">
               Delivered right to your doorstep
             </p>
-            <button className="bg-primary hover:bg-primary-dark text-white font-bold py-3 px-8 rounded-full transition duration-300">
-              Shop Now
-            </button>
+           
           </div>
         </div>
       </div>
@@ -105,7 +104,18 @@ function Millet() {
 
       {/* Featured Products */}
       <section className="container mx-auto px-4 py-12">
-        <h2 className="text-3xl font-bold text-secondary-dark mb-8">Featured Products</h2>
+      <div className="flex justify-between">
+  <h2 className="text-3xl font-bold text-secondary-dark mb-8">Featured Products</h2>
+ 
+  <Link
+  href='/products'
+  className=" text-black font-bold py-3 underline italic"
+>
+  View All Products
+</Link>
+
+
+</div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {products.slice(0, 5).map((product) => (  // Display only the first 5 products
             <div
@@ -139,12 +149,7 @@ function Millet() {
         </div>
         {/* View All Products Button */}
         <div className="text-center mt-8">
-          <button
-            onClick={handleViewAllClick}
-            className="bg-primary hover:bg-primary-dark text-black font-bold py-3 px-8 rounded-full transition duration-300"
-          >
-            View All Products
-          </button>
+         
         </div>
       </section>
     </div>
