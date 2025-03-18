@@ -1,6 +1,11 @@
-'use client';
+"use client";
 
-import {  ChevronRight } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabaseClient";
+import { Product } from "@/types/types";
+import MilletSpaceLoader from "@/app/MilletSpaceLoader";
+import { ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const categories = [
   "Millets & Grains",
@@ -12,99 +17,52 @@ const categories = [
   "Beverages",
 ];
 
-const featuredProducts = [
-  {
-    id: 1,
-    name: "Organic Avocados",
-    price: 249,
-    image: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?auto=format&fit=crop&w=600",
-    category: "Fresh Produce"
-  },
-  {
-    id: 2,
-    name: "Fresh Sourdough Bread",
-    price: 399,
-    image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600",
-    category: "Bakery"
-  },
-  {
-    id: 3,
-    name: "Farm Fresh Eggs",
-    price: 499,
-    image: "https://images.unsplash.com/photo-1506976785307-8732e854ad03?auto=format&fit=crop&w=600",
-    category: "Dairy & Eggs"
-  },
-  {
-    id: 4,
-    name: "Organic Honey",
-    price: 599,
-    image: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=600",
-    category: "Pantry"
-  },
-  {
-    id: 5,
-    name: "Pearl Millet (Bajra)",
-    price: 249,
-    image: "https://images.unsplash.com/photo-1622542086073-89afc46a0c5c?auto=format&fit=crop&w=600",
-    category: "Millets & Grains"
-  },
-  {
-    id: 6,
-    name: "Organic Quinoa",
-    price: 549,
-    image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600",
-    category: "Millets & Grains"
-  },
-  {
-    id: 7,
-    name: "Brown Rice",
-    price: 349,
-    image: "https://images.unsplash.com/photo-1595436301907-0b361827c9b6?auto=format&fit=crop&w=600",
-    category: "Millets & Grains"
-  },
-  {
-    id: 8,
-    name: "Organic Lentils",
-    price: 299,
-    image: "https://images.unsplash.com/photo-1515543904379-3d757afe72e3?auto=format&fit=crop&w=600",
-    category: "Pantry"
-  },
-  {
-    id: 9,
-    name: "Mixed Nuts",
-    price: 699,
-    image: "https://images.unsplash.com/photo-1606923829579-0cb981a83e2e?auto=format&fit=crop&w=600",
-    category: "Pantry"
-  },
-  {
-    id: 10,
-    name: "Organic Chickpeas",
-    price: 199,
-    image: "https://images.unsplash.com/photo-1515543904379-b0a0b6fa5791?auto=format&fit=crop&w=600",
-    category: "Pantry"
-  },
-  {
-    id: 11,
-    name: "Foxtail Millet",
-    price: 329,
-    image: "https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=600",
-    category: "Millets & Grains"
-  },
-  {
-    id: 12,
-    name: "Organic Green Tea",
-    price: 449,
-    image: "https://images.unsplash.com/photo-1627435601361-ec25f5b1d0e5?auto=format&fit=crop&w=600",
-    category: "Beverages"
-  }
-];
-
 function Millet() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();  // Initialize Next.js router
+
+  // Fetch products from the database
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const { data, error } = await supabase.from("products").select("*");
+
+        if (error) {
+          throw error;
+        }
+
+        setProducts(data || []);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const handleProductClick = (productId: string) => {
+    // Navigate to the product details page
+    router.push(`/products/${productId}`);
+  };
+
+  const handleViewAllClick = () => {
+    // Navigate to the all products page
+    router.push("/products"); 
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <MilletSpaceLoader />
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Sidebar */}
-     
+    <div className="min-h-screen bg-amber-50">
       {/* Hero Section */}
       <div className="relative bg-secondary-light h-96">
         <img
@@ -149,8 +107,12 @@ function Millet() {
       <section className="container mx-auto px-4 py-12">
         <h2 className="text-3xl font-bold text-secondary-dark mb-8">Featured Products</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {featuredProducts.map((product) => (
-            <div key={product.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+          {products.slice(0, 5).map((product) => (  // Display only the first 5 products
+            <div
+              key={product.id}
+              className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300 cursor-pointer"
+              onClick={() => handleProductClick((product.id))}  // Cast id to number here
+            >
               <img
                 src={product.image}
                 alt={product.name}
@@ -175,56 +137,16 @@ function Millet() {
             </div>
           ))}
         </div>
-      </section>
-
-      {/* Footer */}
-      {/* <footer className="bg-secondary-dark text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-xl font-bold mb-4">Millets Space</h3>
-              <p className="text-gray-300">
-                Your one-stop shop for organic millets and groceries.
-              </p>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-gray-300 hover:text-white">About Us</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-white">Contact</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-white">Order Tracker</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Categories</h4>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-gray-300 hover:text-white">Millets & Grains</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-white">Organic Products</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-white">Fresh Produce</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Newsletter</h4>
-              <p className="text-gray-300 mb-4">
-                Subscribe to get updates on new products and special offers.
-              </p>
-              <div className="flex">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 px-4 py-2 rounded-l-full focus:outline-none text-gray-900"
-                />
-                <button className="bg-primary hover:bg-primary-dark px-6 py-2 rounded-r-full transition duration-300">
-                  Subscribe
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
-            <p>&copy; 2024 Millets Space. All rights reserved.</p>
-          </div>
+        {/* View All Products Button */}
+        <div className="text-center mt-8">
+          <button
+            onClick={handleViewAllClick}
+            className="bg-primary hover:bg-primary-dark text-black font-bold py-3 px-8 rounded-full transition duration-300"
+          >
+            View All Products
+          </button>
         </div>
-      </footer> */}
+      </section>
     </div>
   );
 }

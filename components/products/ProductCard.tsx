@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Tag } from "lucide-react";
 // import { toast } from "sonner";
 import { Product } from "@/types/types";
 import { useRouter } from "next/navigation";
@@ -44,11 +44,6 @@ export default function ProductCard({ product }: ProductCardProps) {
     alert("Added to cart successfully");
   };
 
-  // const handleBuyNow = (e: React.MouseEvent) => {
-  //   e.stopPropagation();
-  //   toast.success("Proceeding to checkout");
-  // };
-
   const handleCardClick = () => {
     router.push(`/products/${product.id}`);
   };
@@ -72,9 +67,15 @@ export default function ProductCard({ product }: ProductCardProps) {
       </div>
 
       <CardContent className="p-4 flex flex-col justify-between h-1/3">
-        <h3 className="font-medium text-base break-words">{product.name}</h3>
+        <div>
+          <h3 className="font-medium text-base break-words mb-1">{product.name}</h3>
+          <Badge variant="outline" className="text-xs flex items-center w-fit">
+            <Tag className="h-3 w-3 mr-1" />
+            {product.category}
+          </Badge>
+        </div>
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mt-2">
           <div className="flex items-baseline gap-1">
             <span className="font-bold text-lg">₹{discountedPrice.toFixed(2)}</span>
             {product.offer && (
@@ -97,10 +98,9 @@ export default function ProductCard({ product }: ProductCardProps) {
           >
             <CreditCard className="mr-1 h-4 w-4" />
             Buy
-          </Button> */} 
+          </Button> */}
         </div>
       </CardContent>
     </Card>
   );
 }
-
