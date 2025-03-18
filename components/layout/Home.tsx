@@ -105,7 +105,7 @@ function Millet() {
  
   <Link
   href='/products'
-  className=" text-black font-bold py-3 underline italic"
+  className=" text-black font-bold  underline italic"
 >
   View All Products
 </Link>
@@ -125,9 +125,7 @@ function Millet() {
                 className="w-full h-48 object-cover"
               />
               <div className="p-4">
-                <div className="text-xs text-accent-dark font-semibold mb-2">
-                  {product.category}
-                </div>
+               
                 <h3 className="text-lg font-semibold text-secondary-dark mb-2">
                   {product.name}
                 </h3>
