@@ -193,7 +193,8 @@ export default function Navbar() {
             <SignedOut>
               <div className="flex items-center space-x-2">
                 <SignInButton mode="modal">
-                  <Button>Sign In</Button>
+                  <Button className="bg-green-700 text-white cursor-pointer hover:bg-white hover:text-green-700"
+                  >Sign In</Button>
                 </SignInButton>
               </div>
             </SignedOut>
