@@ -64,7 +64,7 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
       <div className="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-xl shadow-md p-6 mb-8">
           <div className="flex items-center gap-4 border-b border-amber-100 pb-6">

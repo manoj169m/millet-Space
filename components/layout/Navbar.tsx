@@ -50,17 +50,17 @@ const DesktopNavLinks: React.FC<{
   <Link
   key={route.href}
   href={route.href}
-  className="text-sm font-medium text-gray-600 hover:text-gray-900 relative group"
+  className="text-sm font-semibold text-brown-900 hover:text-green-700 relative group"
 >
   {route.label}
-  <span className="absolute left-0 bottom-0 w-full h-[2px] bg-gray-900 scale-x-0 transition-all duration-300 group-hover:scale-x-100"></span>
+  <span className="absolute left-0 bottom-0 w-full h-[2px] bg-green-700 scale-x-0 transition-all duration-300 group-hover:scale-x-100"></span>
 </Link>
 
     ))}
     {!isLoading && role === 'admin' && (
       <Link
         href="/admin"
-        className="text-sm font-medium text-gray-600 hover:text-gray-900"
+        className="text-sm font-semibold text-brown-900 hover:text-gray-900"
       >
         Admin
       </Link>

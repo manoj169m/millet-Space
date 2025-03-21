@@ -4,6 +4,7 @@ import { Manrope } from "next/font/google"; // Import Manrope font
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import { CartProvider } from "@/context/cart-context";
+import Footer from "@/components/layout/Footer";
 
 // Import Manrope font and define the variable
 const manrope = Manrope({
@@ -38,6 +39,7 @@ export default function RootLayout({
           <CartProvider>
             <Navbar />
             {children}
+            <Footer/>
           </CartProvider>
         </body>
       </html>

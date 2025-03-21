@@ -216,11 +216,12 @@ export default function AddressesPage() {
   }
 
   return (
-    <div className="container p-10">
+    <div className="container p-10 bg-green-50">
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-semibold">Your Address</h1>
-          <Button onClick={() => handleOpenDialog()}>
+          <h1 className="text-3xl font-semibold text-green-700">Your Address</h1>
+          <Button onClick={() => handleOpenDialog()}   className="border border-green-700 cursor-pointer bg-white"
+          >
             <Plus className="mr-2 h-4 w-4" />
             {address ? "Edit Address" : "Add Address"}
           </Button>
@@ -239,12 +240,12 @@ export default function AddressesPage() {
             </Button>
           </div>
         ) : (
-          <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white">
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 <span>Address</span>
                 {address.is_default && (
-                  <span className="rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
+                  <span className="rounded-full bg-green-700 px-2 py-1 text-xs font-medium text-white">
                     Default
                   </span>
                 )}
@@ -261,8 +262,11 @@ export default function AddressesPage() {
               </div>
             </CardContent>
             <CardFooter className="flex justify-between">
-              <Button variant="outline" size="sm" onClick={() => handleOpenDialog(address)}>
-                <Pencil className="mr-2 h-4 w-4" />
+            <Button 
+  variant="outline" 
+  size="sm" 
+  onClick={() => handleOpenDialog(address)} 
+>                <Pencil className="mr-2 h-4 w-4" />
                 Edit
               </Button>
               <Button

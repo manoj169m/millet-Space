@@ -8,15 +8,17 @@ import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-const categories = [
-  "Millets & Grains",
-  "Organic Products",
-  "Fresh Produce",
-  "Dairy & Eggs",
-  "Bakery",
-  "Pantry",
-  "Beverages",
-];
+const categories =[
+  "Herbal Power Mix",
+  "Rice Variety",
+  "Millet Flour Variety",
+  "Idli Podi Variety",
+  "Beauty and Care",
+  "Salt Items",
+  "Candies and Sweets",
+  "Millets"
+]
+
 
 function Millet() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -59,7 +61,7 @@ function Millet() {
   }
 
   return (
-    <div className="min-h-screen bg-amber-50">
+    <div className="min-h-screen bg-green-50">
       {/* Hero Section */}
       <div className="relative bg-secondary-light h-96">
         <img
@@ -82,7 +84,7 @@ function Millet() {
 
       {/* Categories */}
       <section className="container mx-auto px-4 py-12">
-        <h2 className="text-3xl font-bold text-secondary-dark mb-8">Categories</h2>
+        <h2 className="text-3xl font-bold text-green-700 mb-8">Categories</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {categories.map((category) => (
             <div
@@ -101,11 +103,11 @@ function Millet() {
       {/* Featured Products */}
       <section className="container mx-auto px-4 py-12">
       <div className="flex justify-between">
-  <h2 className="text-3xl font-bold text-secondary-dark mb-8">Featured Products</h2>
+  <h2 className="text-3xl font-bold text-green-700 mb-8">Featured Products</h2>
  
   <Link
   href='/products'
-  className=" text-black font-bold  underline italic"
+  className="text-green-950 font-bold underline italic transition-all duration-300 transform hover:scale-105 hover:text-green-700"
 >
   View All Products
 </Link>
@@ -145,6 +147,11 @@ function Millet() {
         <div className="text-center mt-8">
          
         </div>
+      </section>
+{/* footer */}
+      <section>
+
+
       </section>
     </div>
   );

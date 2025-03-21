@@ -67,32 +67,32 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="container py-10">
+    <div className="container py-10 bg-green-50">
       <div className="mx-auto max-w-4xl space-y-6">
-        <h1 className="text-3xl font-bold">Your Profile</h1>
+        <h1 className="text-3xl font-bold text-green-700">Your Profile</h1>
 
         <Tabs defaultValue="profile" className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="profile" className="flex items-center gap-2">
+          <TabsList className="grid w-full grid-cols-4 ">
+            <TabsTrigger value="profile" className="flex items-center gap-2 text-green-700">
               <User className="h-4 w-4" />
               <span className="hidden sm:inline">Profile</span>
             </TabsTrigger>
-            <TabsTrigger value="orders" className="flex items-center gap-2">
+            <TabsTrigger value="orders" className="flex items-center gap-2 text-green-700">
               <ShoppingBag className="h-4 w-4" />
               <span className="hidden sm:inline">Orders</span>
             </TabsTrigger>
-            <TabsTrigger value="addresses" className="flex items-center gap-2">
+            <TabsTrigger value="addresses" className="flex items-center gap-2 text-green-700">
               <MapPin className="h-4 w-4" />
               <span className="hidden sm:inline">Addresses</span>
             </TabsTrigger>
-            <TabsTrigger value="settings" className="flex items-center gap-2">
+            <TabsTrigger value="settings" className="flex items-center gap-2 text-green-700">
               <Settings className="h-4 w-4" />
               <span className="hidden sm:inline">Settings</span>
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="profile" className="mt-6">
-            <Card>
+          <TabsContent value="profile" className="mt-6" >
+            <Card className="bg-white">
               <CardHeader>
                 <CardTitle>Personal Information</CardTitle>
                 <CardDescription>
@@ -133,8 +133,8 @@ export default function ProfilePage() {
                     />
                   </div>
                 </CardContent>
-                <CardFooter>
-                  <Button type="submit" disabled={loading}>
+                <CardFooter className="p-5">
+                  <Button type="submit" disabled={loading} className="bg-green-700 text-white cursor-pointer">
                     {loading ? "Saving..." : "Save Changes"}
                   </Button>
                 </CardFooter>
@@ -143,7 +143,7 @@ export default function ProfilePage() {
           </TabsContent>
 
           <TabsContent value="orders" className="mt-6">
-            <Card>
+            <Card className="bg-white">
               <CardHeader>
                 <CardTitle>Your Orders</CardTitle>
                 <CardDescription>
@@ -154,6 +154,7 @@ export default function ProfilePage() {
                 <Button
                   variant="outline"
                   onClick={() => router.push("/orders")}
+                  className="bg-green-700 text-white cursor-pointer"
                 >
                   View All Orders
                 </Button>
@@ -162,7 +163,7 @@ export default function ProfilePage() {
           </TabsContent>
 
           <TabsContent value="addresses" className="mt-6">
-            <Card>
+            <Card className="bg-white">
               <CardHeader>
                 <CardTitle>Your Addresses</CardTitle>
                 <CardDescription>
@@ -173,6 +174,7 @@ export default function ProfilePage() {
                 <Button
                   variant="outline"
                   onClick={() => router.push("/addresses")}
+                  className="bg-green-700 text-white cursor-pointer"
                 >
                   Manage Addresses
                 </Button>
@@ -181,7 +183,7 @@ export default function ProfilePage() {
           </TabsContent>
 
           <TabsContent value="settings" className="mt-6">
-            <Card>
+            <Card className="bg-white">
               <CardHeader>
                 <CardTitle>Account Settings</CardTitle>
                 <CardDescription>
@@ -215,7 +217,9 @@ export default function ProfilePage() {
                 </div>
                 <div className="space-y-2">
                   <h3 className="text-lg font-medium">Password</h3>
-                  <Button variant="outline">Change Password</Button>
+                  <Button variant="outline"
+                                    className="bg-green-700 text-white cursor-pointer"
+                  >Change Password</Button>
                 </div>
                 <div className="space-y-2">
                   <h3 className="text-lg font-medium">Delete Account</h3>

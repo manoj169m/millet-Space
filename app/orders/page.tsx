@@ -154,9 +154,9 @@ export default function OrdersPage() {
   }
 
   return (
-    <div className="container p-10 bg-amber-50">
+    <div className="container p-10 bg-green-50">
       <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-primary">
+      <h1 className="text-3xl font-bold text-green-700">
   Your Orders <span><ShoppingBag className="inline-block h-6 w-6 text-primary" /></span>
 </h1>
 
@@ -176,14 +176,14 @@ export default function OrdersPage() {
                 <TableRow key={order.id} className="hover:bg-gray-100">
                   <TableCell className="font-medium">{order.id.substring(0, 8)}...</TableCell>
                   <TableCell>{new Date(order.created_at).toLocaleDateString()}</TableCell>
-                  <TableCell>${order.total_amount.toFixed(2)}</TableCell>
+                  <TableCell>₹{order.total_amount.toFixed(2)}</TableCell>
                   <TableCell>{getStatusBadge(order.status)}</TableCell>
                   <TableCell>
                     <Button
                       variant="ghost"
                       size="icon"
                       onClick={() => handleViewOrder(order)}
-                      className="hover:text-blue-500"
+                      className="hover:text-blue-500 cursor-pointer"
                     >
                       <Eye className="h-4 w-4" />
                       <span className="sr-only">View order</span>
@@ -196,7 +196,7 @@ export default function OrdersPage() {
         </div>
 
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-          <DialogContent className="sm:max-w-[600px] bg-gray-50 shadow-lg">
+          <DialogContent className="sm:max-w-[600px] bg-green-50 shadow-lg">
             <DialogHeader>
               <DialogTitle>Order Details</DialogTitle>
               <DialogDescription>Order ID: {selectedOrder?.id}</DialogDescription>
@@ -249,9 +249,9 @@ export default function OrdersPage() {
                               </div>
                               <span className="text-sm">{item.products.name}</span>
                             </TableCell>
-                            <TableCell>${item.price.toFixed(2)}</TableCell>
+                            <TableCell>₹{item.price.toFixed(2)}</TableCell>
                             <TableCell>{item.quantity}</TableCell>
-                            <TableCell>${(item.price * item.quantity).toFixed(2)}</TableCell>
+                            <TableCell>₹{(item.price * item.quantity).toFixed(2)}</TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
@@ -262,15 +262,15 @@ export default function OrdersPage() {
                 <div className="rounded-md border p-4 bg-white shadow-lg">
                   <div className="flex justify-between">
                     <span className="text-sm text-muted-foreground">Subtotal</span>
-                    <span className="text-sm">${(selectedOrder.total_amount / 1.1).toFixed(2)}</span>
+                    <span className="text-sm">₹{(selectedOrder.total_amount / 1.1).toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-sm text-muted-foreground">Tax</span>
-                    <span className="text-sm">${(selectedOrder.total_amount - selectedOrder.total_amount / 1.1).toFixed(2)}</span>
+                    <span className="text-sm">₹{(selectedOrder.total_amount - selectedOrder.total_amount / 1.1).toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between border-t pt-2 mt-2">
                     <span className="font-medium">Total</span>
-                    <span className="font-medium">${selectedOrder.total_amount.toFixed(2)}</span>
+                    <span className="font-medium">₹{selectedOrder.total_amount.toFixed(2)}</span>
                   </div>
                 </div>
               </div>

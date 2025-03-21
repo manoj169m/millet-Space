@@ -87,17 +87,17 @@ export default function Home() {
   }
 
   return (
-    <div className="p-4 bg-amber-50 h-auto">
+    <div className="p-4 bg-green-50 h-auto">
       {/* Category filter */}
       <div className="mb-6">
-        <h2 className="text-lg font-medium mb-3">Filter by Category</h2>
+        <h2 className="text-lg font-semibold text-green-700 mb-3">Filter by Category</h2>
         <div className="flex flex-wrap gap-2">
           {categories.map((category) => (
             <Button
               key={category}
               variant={selectedCategory === category ? "default" : "outline"}
               size="sm"
-              className="rounded-full"
+              className="rounded-full "
               onClick={() => handleCategorySelect(category)}
             >
               <Tag className="h-4 w-4 mr-1" />

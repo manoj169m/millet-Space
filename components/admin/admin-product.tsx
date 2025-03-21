@@ -74,6 +74,19 @@ export default function ProductManagement() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
+  // Category options for the select dropdown
+  const categoryOptions = [
+    "Herbal Power Mix",
+    "Rice Variety",
+    "Millet Flour Variety",
+    "Idli Podi Variety",
+    "Beauty and Care",
+    "Salt Items",
+    "Candies and Sweets",
+    "Millets"
+]
+
+
   // Fetch products from the database on load
   useEffect(() => {
     const fetchProducts = async () => {
@@ -86,7 +99,7 @@ export default function ProductManagement() {
         setProducts(data || []);
       } catch (error) {
         console.error("Error fetching products:", error);
-      toast.error("Failed to save product. Please try again.");
+        toast.error("Failed to load products. Please try again.");
       } finally {
         setLoading(false);
       }
@@ -95,7 +108,7 @@ export default function ProductManagement() {
   }, []);
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -171,7 +184,7 @@ export default function ProductManagement() {
               : product
           )
         );
-        toast.success("Product added successfully");
+        toast.success("Product updated successfully");
       } else if (response.data?.[0]) {
         setProducts((prevProducts) => [...prevProducts, response.data[0]]);
         toast.success("Product added successfully");
@@ -204,10 +217,10 @@ export default function ProductManagement() {
 
       // Update UI
       setProducts(products.filter((product) => product.id !== productToDelete));
-      toast.success("Product added successfully");
+      toast.success("Product deleted successfully");
     } catch (error) {
       console.error("Error deleting product:", error);
-      toast.error("Failed to save product. Please try again.");
+      toast.error("Failed to delete product. Please try again.");
     } finally {
       setDeleteDialogOpen(false);
       setProductToDelete(null);
@@ -247,7 +260,7 @@ export default function ProductManagement() {
               Add Product
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[600px]">
+          <DialogContent className="sm:max-w-[600px] bg-white">
             <DialogHeader>
               <DialogTitle>{formData.id ? "Edit Product" : "Add New Product"}</DialogTitle>
               <DialogDescription>
@@ -255,9 +268,9 @@ export default function ProductManagement() {
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit}>
-              <div className="grid gap-4 py-4">
+              <div className="grid gap-4 py-4 ">
                 {/* Form fields */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4 ">
                   <div className="space-y-2">
                     <Label htmlFor="name">Product Name</Label>
                     <Input
@@ -271,14 +284,21 @@ export default function ProductManagement() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="category">Category</Label>
-                    <Input
+                    <select
                       id="category"
                       name="category"
                       value={formData.category}
                       onChange={handleInputChange}
-                      placeholder="e.g. Electronics, Clothing"
+                      className="input"
                       required
-                    />
+                    >
+                      <option value="">Select a category</option>
+                      {categoryOptions.map((category) => (
+                        <option key={category} value={category}>
+                          {category}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
                 <div className="space-y-2">
@@ -399,7 +419,7 @@ export default function ProductManagement() {
             </div>
           ) : filteredProducts.length === 0 ? (
             <div className="flex flex-col justify-center items-center py-8">
-              <Image className="h-12 w-12 text-gray-400 mb-2"  />
+              <Image className="h-12 w-12 text-gray-400 mb-2" />
               <p className="text-lg font-medium">No products found</p>
               <p className="text-sm text-gray-500">
                 {searchTerm ? "Try a different search term" : "Add a new product to get started"}
@@ -432,7 +452,7 @@ export default function ProductManagement() {
                                 onError={(e) => (e.currentTarget.src = "https://via.placeholder.com/40")} 
                               />
                             ) : (
-                              <Image className="h-5 w-5 text-gray-400"   />
+                              <Image className="h-5 w-5 text-gray-400" />
                             )}
                           </div>
                           <div>
@@ -449,7 +469,7 @@ export default function ProductManagement() {
                         <Badge variant="outline">{product.category}</Badge>
                       </td>
                       <td className="px-4 py-3">
-                      ₹{product.price.toFixed(2)}
+                        ₹{product.price.toFixed(2)}
                         {product.offer ? (
                           <span className="ml-1 text-green-600 text-xs">
                             (-{product.offer}%)
@@ -457,32 +477,29 @@ export default function ProductManagement() {
                         ) : null}
                       </td>
                       <td className="px-4 py-3">
-                        <Badge variant={product.stock > 10 ? "default" : product.stock > 0 ? "outline" : "destructive"}>
-                          {product.stock} in stock
-                        </Badge>
+                      <Badge variant={product.stock > 10 ? "default" : product.stock > 0 ? "secondary" : "destructive"}>
+  {product.stock}
+</Badge>
+
                       </td>
                       <td className="px-4 py-3">
-                        {product.offer ? `${product.offer}%` : "None"}
+                        {product.offer ? `${product.offer}% off` : "No discount"}
                       </td>
-                      <td className="px-4 py-3">
-                        <div className="flex items-center space-x-2">
+                      <td className="px-4 py-3 text-gray-500">
+                        <div className="flex space-x-2">
                           <Button
-                            size="sm"
                             variant="outline"
+                            className="h-8 w-8"
                             onClick={() => handleEdit(product)}
-                            className="h-8 w-8 p-0"
-                            title="Edit product"
                           >
-                            <Edit className="h-4 w-4" />
+                            <Edit className="h-5 w-5" />
                           </Button>
                           <Button
-                            size="sm"
                             variant="outline"
+                            className="h-8 w-8"
                             onClick={() => confirmDelete(product.id)}
-                            className="h-8 w-8 p-0 text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700"
-                            title="Delete product"
                           >
-                            <Trash className="h-4 w-4" />
+                            <Trash className="h-5 w-5 text-red-600" />
                           </Button>
                         </div>
                       </td>
@@ -493,25 +510,26 @@ export default function ProductManagement() {
             </div>
           )}
         </div>
-
-        {/* Delete Confirmation Dialog */}
-        <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete the product and remove it from our servers.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleDelete} className="bg-red-600 hover:bg-red-700">
-                Delete
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
       </CardContent>
+      {/* Delete Confirmation */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure you want to delete this product?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setDeleteDialogOpen(false)}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={handleDelete}>
+              Yes, Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </Card>
   );
 }
