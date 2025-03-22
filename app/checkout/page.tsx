@@ -488,7 +488,7 @@ export default function CheckoutPage() {
                   </div>
                   <h2 className="text-2xl font-bold mb-4">Order Confirmation</h2>
                   <p className="text-slate-600 mb-6">
-                    Your order has been placed successfully! We've sent a confirmation email with all the details.
+                  Your order has been placed successfully! We&apos;ve sent a confirmation email with all the details.
                   </p>
 
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -590,4 +590,4 @@ export default function CheckoutPage() {
       </div>
     </div>
   );
-}``
+}
