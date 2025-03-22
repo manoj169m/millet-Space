@@ -182,9 +182,9 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 gap-12 md:grid-cols-2 bg-slate-200 rounded-xl shadow-sm overflow-hidden">
+      <div className="grid grid-cols-1 gap-12 md:grid-cols-2 bg-white rounded-xl shadow-sm overflow-hidden">
         {/* Product Image */}
-        <div className="overflow-hidden bg-slate-200  flex items-center justify-center p-4">
+        <div className="overflow-hidden bg-white  flex items-center justify-center p-4">
           <img
             src={product.image}
             alt={product.name}
@@ -248,7 +248,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
           {/* Add to Cart and Buy Now Buttons */}
           <div className="flex gap-4 pt-4">
             <Button
-              className="flex-1 gap-2 py-6 bg-gray-800 hover:bg-gray-700 text-white"
+              className="flex-1 gap-2 py-6 bg-green-700 hover:bg-white hover:text-green-700 hover:border border-green-700 text-white cursor-pointer"
               disabled={product.stock === 0}
               onClick={handleAddToCart}
               aria-label="Add to Cart"
@@ -270,13 +270,13 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
       </div>
 
       {/* Reviews Section */}
-      <div className="mt-12 bg-slate-200 rounded-xl shadow-sm p-6">
+      <div className="mt-12 bg-white rounded-xl shadow-sm p-6">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-2xl font-bold text-gray-900">Customer Reviews</h3>
+          <h3 className="text-2xl font-bold  text-green-700">Customer Reviews</h3>
           <Button 
             variant="outline" 
             onClick={() => setAddingReview(!addingReview)}
-            className="gap-2"
+            className="gap-2 bg-green-700 text-white hover:bg-white hover:text-green-700 cursor-pointer"
           >
             {addingReview ? "Cancel" : "Write a Review"}
           </Button>

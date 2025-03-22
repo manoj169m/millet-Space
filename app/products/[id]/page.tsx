@@ -57,7 +57,7 @@ export default function ProductPage() {
   }
 
   return (
-    <div className="container mx-auto py-8 px-4">
+    <div className="container mx-auto py-8 px-4 bg-green-50">
       <ProductDetails product={product} />
     </div>
   );

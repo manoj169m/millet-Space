@@ -79,7 +79,6 @@ export default function OrdersPage() {
     setOpenDialog(true);
 
     try {
-      // Fetch order items with product details
       const { data: items, error: itemsError } = await supabase
         .from("order_items")
         .select(`
@@ -91,7 +90,6 @@ export default function OrdersPage() {
       if (itemsError) throw itemsError;
       setOrderItems(items as OrderItem[] || []);
 
-      // Fetch address
       const { data: addressData, error: addressError } = await supabase
         .from("addresses")
         .select("*")
@@ -129,12 +127,12 @@ export default function OrdersPage() {
   }
 
   if (!isSignedIn) {
-    return null; // Will redirect in useEffect
+    return null;
   }
 
   if (orders.length === 0) {
     return (
-      <div className="container py-10 bg-amber-50">
+      <div className="container py-10 bg-green-50">
         <div className="mx-auto max-w-2xl space-y-6 text-center">
           <h1 className="text-3xl font-bold text-primary">Your Orders</h1>
           <div className="rounded-lg border p-8 bg-white shadow-lg">
@@ -154,14 +152,14 @@ export default function OrdersPage() {
   }
 
   return (
-    <div className="container p-10 bg-green-50">
+    <div className="container p-6 bg-green-50 sm:p-10">
       <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-green-700">
-  Your Orders <span><ShoppingBag className="inline-block h-6 w-6 text-primary" /></span>
-</h1>
+        <h1 className="text-3xl font-bold text-green-700">
+          Your Orders <span><ShoppingBag className="inline-block h-6 w-6 text-primary" /></span>
+        </h1>
 
         <div className="rounded-md border bg-white shadow-lg">
-          <Table>
+          <Table className="w-full">
             <TableHeader>
               <TableRow>
                 <TableHead>Order ID</TableHead>
@@ -196,17 +194,17 @@ export default function OrdersPage() {
         </div>
 
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-          <DialogContent className="sm:max-w-[600px] bg-green-50 shadow-lg">
+          <DialogContent className="sm:max-w-[600px] bg-green-50 shadow-lg rounded-lg sm:p-8 p-4">
             <DialogHeader>
               <DialogTitle>Order Details</DialogTitle>
               <DialogDescription>Order ID: {selectedOrder?.id}</DialogDescription>
             </DialogHeader>
             {selectedOrder && (
               <div className="space-y-6">
-                <div className="flex justify-between">
-                  <p className="text-sm text-muted-foreground">Date: {new Date(selectedOrder.created_at).toLocaleString()}</p>
+                <div className="flex justify-between text-sm">
+                  <p className="text-muted-foreground">Date: {new Date(selectedOrder.created_at).toLocaleString()}</p>
                   <div className="mt-2 flex items-center gap-2">
-                    <span className="text-sm font-medium">Status:</span>
+                    <span className="font-medium">Status:</span>
                     {getStatusBadge(selectedOrder.status)}
                   </div>
                 </div>
@@ -260,17 +258,17 @@ export default function OrdersPage() {
                 </div>
 
                 <div className="rounded-md border p-4 bg-white shadow-lg">
-                  <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Subtotal</span>
-                    <span className="text-sm">₹{(selectedOrder.total_amount / 1.1).toFixed(2)}</span>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Subtotal</span>
+                    <span>₹{(selectedOrder.total_amount / 1.1).toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Tax</span>
-                    <span className="text-sm">₹{(selectedOrder.total_amount - selectedOrder.total_amount / 1.1).toFixed(2)}</span>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Tax</span>
+                    <span>₹{(selectedOrder.total_amount - selectedOrder.total_amount / 1.1).toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between border-t pt-2 mt-2">
-                    <span className="font-medium">Total</span>
-                    <span className="font-medium">₹{selectedOrder.total_amount.toFixed(2)}</span>
+                  <div className="flex justify-between border-t pt-2 mt-2 text-sm font-medium">
+                    <span>Total</span>
+                    <span>₹{selectedOrder.total_amount.toFixed(2)}</span>
                   </div>
                 </div>
               </div>
