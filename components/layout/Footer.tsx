@@ -40,12 +40,11 @@ const Footer = () => {
           </div>
           {/* Developed By Section */}
           <div className="text-right">
-            <p>Developed by <a href="https://freelance-portfolio-lime.vercel.app/" className="hover:text-gray-300">Your Company</a></p>
+            <p>Developed by <a href="https://freelance-portfolio-lime.vercel.app/" className="hover:text-gray-300">Just a Common Man</a></p>
           </div>
         </div>
       </div>
     </footer>
   );
 };
-
 export default Footer;
