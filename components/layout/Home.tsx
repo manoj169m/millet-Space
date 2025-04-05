@@ -7,6 +7,7 @@ import MilletSpaceLoader from "@/app/MilletSpaceLoader";
 import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Choose from "./Choose";
 
 const categories =[
   "Herbal Power Mix",
@@ -86,19 +87,21 @@ function Millet() {
       <section className="container mx-auto px-4 py-12">
         <h2 className="text-3xl font-bold text-green-700 mb-8">Categories</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {categories.map((category) => (
-            <div
-              key={category}
-              className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition duration-300 cursor-pointer"
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-medium text-secondary">{category}</span>
-                <ChevronRight className="h-5 w-5 text-primary" />
-              </div>
-            </div>
-          ))}
-        </div>
+  {categories.map((category) => (
+    <div
+      key={category}
+      className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition duration-300 cursor-pointer"
+    >
+      <div className="flex items-center justify-between">
+        <span className="font-medium text-secondary">{category}</span>
+        <ChevronRight className="h-5 w-5 text-green-700 transition-transform duration-300 transform hover:scale-110" />
+      </div>
+    </div>
+  ))}
+</div>
+
       </section>
+      <Choose/>
 
       {/* Featured Products */}
       <section className="container mx-auto px-4 py-12">
