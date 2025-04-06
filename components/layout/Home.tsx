@@ -110,24 +110,28 @@ function Millet() {
         <h2 className="text-3xl font-bold text-green-700 mb-8">Categories</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {categories.map((category) => (
-            <div
-              key={category.name}
-              className="bg-white rounded-lg relative shadow-md  hover:shadow-lg transition duration-300 cursor-pointer group"
-            >
-              <div className="w-full h-64 relative">
-                <Image
-                  width={500}
-                  height={300}
-                  src={category.image}
-                  alt={category.name}
-                  className="w-full h-full object-cover rounded-lg transition-transform duration-300 transform group-hover:scale-105"
-                />
-              </div>
-              <div className="flex items-center justify-between absolute top-15 left-4 right-4">
-                <span className="text-lg sm:text-xl md:text-2xl  text-white">{category.name}</span>
-                <ChevronRight className="h-5 w-5 text-green-700 transition-transform duration-300 transform group-hover:scale-110" />
-              </div>
-            </div>
+           <div
+           key={category.name}
+           className="bg-white rounded-lg relative shadow-md overflow-hidden hover:shadow-lg transition duration-300 cursor-pointer group"
+         >
+           <div className="w-full h-64 relative">
+             <Image
+               width={500}
+               height={300}
+               src={category.image}
+               alt={category.name}
+               className="w-full h-full object-cover rounded-lg transition-transform duration-300 transform group-hover:scale-105"
+             />
+           </div>
+           <div className="flex items-center justify-between absolute top-15 left-4 right-4">
+             <span className="text-lg sm:text-xl md:text-2xl text-white relative group">
+               {category.name}
+               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 transform group-hover:w-full group-hover:scale-x-100"></span>
+             </span>
+             <ChevronRight className="h-5 w-5 text-green-700 transition-transform duration-300 transform group-hover:scale-110" />
+           </div>
+         </div>
+         
           ))}
         </div>
       </section>
